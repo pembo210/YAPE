@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         YAPE
 // @namespace    https://phuks.co
-// @version      0.1.3
+// @version      0.1.4
 // @date         2017-09-25
 // @description  Yet Another Phuking Extension. Add-on for Phuks!
 // @author       pembo
@@ -32,6 +32,7 @@ style.type = 'text/css';
 style.innerHTML = '#myButton,#OpenExpandos {cursor: pointer;color:#fff;} ';
 style.innerHTML += 'span.PhuksUserTag {padding: 2px 4px;border: 1px solid #555;border-radius: 4px;margin: 0px 2px 0px 6px;} ';
 style.innerHTML += 'body.dark img.PhuksUserTagImg {background: #999;border-radius: 2px;padding: 2px;} ';
+style.innerHTML += 'span.yapeadminicon {margin-left: 10px;} ';
 document.getElementsByTagName('head')[0].appendChild(style);
 
 // set user tag function in head, I heard you like js, so I put js in your js
@@ -126,3 +127,78 @@ for (var i = 0; i < getu.length; i++) {
       getu[i].after(togglespan);
     }
 }
+
+
+/***** Admin area *****/
+
+// css
+var YAPEstyle = document.createElement('style');
+YAPEstyle.type = 'text/css';
+YAPEstyle.innerHTML = '#YAPEadminmodel {display: none;position: fixed;z-index: 1;padding-top: 100px;left: 0;top: 0;width: 100%;height: 100%;overflow: auto;background-color: rgb(0,0,0);background-color: rgba(0,0,0,0.4);} ';
+YAPEstyle.innerHTML += '.modal-content {background-color: #fefefe;margin: auto;padding: 20px;border: 1px solid #888;width: 80%;} ';
+YAPEstyle.innerHTML += '.close {color: #aaaaaa;float: right;font-size: 28px;font-weight: bold;} ';
+YAPEstyle.innerHTML += '.close {color: #aaaaaa;float: right;font-size: 28px;font-weight: bold;} ';
+YAPEstyle.innerHTML += '.close:hover,.close:focus {color: #000;text-decoration: none;cursor: pointer;} ';
+document.getElementsByTagName('head')[0].appendChild(YAPEstyle);
+
+// admin area
+var YAPEmodel = document.createElement('div');
+YAPEmodel.setAttribute('id', 'YAPEadminmodel');
+
+// user tag box
+var boxhtml = '';
+boxhtml += '<div class="modal-content">';
+boxhtml += '  <span class="closeYAPE" style="float:right">&times;</span>';
+boxhtml += '  <div>Current user tags:</div>';
+boxhtml += '  <div id="YAPEadminUserTags">';
+boxhtml += '    <ul id="YAPEadminUserTagsUL"></ul>';
+boxhtml += '  </div>';
+boxhtml += '</div>';
+
+YAPEmodel.innerHTML = boxhtml;
+document.getElementsByTagName('body')[0].appendChild(YAPEmodel);
+
+// get user tags
+var adminul = document.querySelector('#YAPEadminUserTagsUL');
+for (var i = 0; i < localStorage.length; i++) {
+    var key = localStorage.key(i);
+    var elem = localStorage.getItem(key);
+    console.log(key + ', ' + elem);
+    var newtagli = document.createElement('li');
+    newtagli.innerHTML = '<a href="/u/' + key.substring(13) + '" target="_blank">' + key.substring(13) + '</a>: ' + elem + ' ';
+    newtagli.innerHTML += '<img src="' + usrtagimg + '" height="16" width="16" onclick="setPhuksUserTag(\'' + key.substring(13) + '\', \'' + elem + '\')">';
+    adminul.appendChild(newtagli);
+}
+
+// admin image in menu
+var adminimg = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAA3XAAAN1wFCKJt4A';
+adminimg += 'AAAB3RJTUUH4AwVAygTowKqowAAAS5JREFUOMudk7FKBDEQhr/dWFuLx7FWttb6BAq2osW8ga2P4hNowMXGF7ATEQuxsNLKZRUsbKzPSSw2yeXWPT0dCElm8v/';
+adminimg += 'zJ5kBQIUtFc7D+ldT4UCFI4Ay+J6APRVaY0GFYgAU52PgDHhLBMbyHs6NVPDAqA8OxPfAYXA3uQKAW0iZWxX2s1ilwgewER3GctUnuOmprlV4VOECeAaWswRRM';
+adminimg += 'UsZ4G7gvdbD6Fs6mytoWNyu46PmBA/8w3KC3T/gNo39TrAdF0UBZRbp74GdIQWrgAcoT8G5acB7KE5mSVRYIX5LVigNMC5N53cashTdf7lJwo+N5SWvxFiqa8C';
+adminimg += 'l0ykYwHlwk04dUAGv6XpzmqWGmUr0QGsslQqFsYnsx46rA9B/dldbqFP75gHv/XzwF6jIZkPpUPCeAAAAAElFTkSuQmCC';
+
+// get username
+var getadmin = document.getElementsByClassName('cw-items')[1].childNodes[1];
+
+// add icon after username
+var adminspan = document.createElement('span');
+adminspan.innerHTML = '<img src="' + adminimg + '" height="16" width="16">';
+adminspan.setAttribute('id', 'YAPEicon');
+adminspan.setAttribute('class', 'yapeadminicon');
+getadmin.after(adminspan);
+
+// get, open, and close the admin area modal
+var modal = document.getElementById('YAPEadminmodel');
+var btn = document.getElementById("YAPEicon");
+var span = document.getElementsByClassName("closeYAPE")[0];
+btn.onclick = function() {
+    modal.style.display = "block";
+};
+span.onclick = function() {
+    modal.style.display = "none";
+};
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+};
