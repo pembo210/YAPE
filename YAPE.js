@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         YAPE
 // @namespace    https://phuks.co
-// @version      0.1.4
+// @version      0.1.5
 // @date         2017-09-25
 // @description  Yet Another Phuking Extension. Add-on for Phuks!
 // @author       pembo
@@ -194,7 +194,7 @@ boxhtml += '    <div id="Admin" class="tabcontent">';
 boxhtml += '      <h3>Admin</h3>';
 boxhtml += '      <p>YAPE, Yet Another Phuking Extension. Add-on for Phuks!</p>';
 boxhtml += '      <p>Currently works on <a href="https://dev.phuks.co">https://dev.phuks.co</a></p>';
-boxhtml += '      <p style="text-align: right;">version 0.1.4</p>';
+boxhtml += '      <p style="text-align: right;">version 0.1.5</p>';
 boxhtml += '    </div>';
 boxhtml += '    <div id="Tags" class="tabcontent">';
 boxhtml += '      <h3>User Tags</h3>';
