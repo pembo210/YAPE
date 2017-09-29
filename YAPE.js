@@ -22,20 +22,20 @@
 // @match        https://dev.phuks.co/s/*/top/*
 // @grant        none
 // ==/UserScript==
-
+//https://github.com/pembo210/YAPE
 
 /***** Things in the head *****/
 
 // css
 var style = document.createElement('style');
 style.type = 'text/css';
+style.setAttribute('class', 'YAPEexpandos');
 style.innerHTML = '#myButton,#OpenExpandos {cursor: pointer;color:#fff;} ';
 style.innerHTML += 'span.PhuksUserTag {padding: 2px 4px;border: 1px solid #555;border-radius: 4px;margin: 0px 2px 0px 6px;} ';
 style.innerHTML += 'body.dark img.PhuksUserTagImg {background: #999;border-radius: 2px;padding: 2px;} ';
-style.innerHTML += 'span.yapeadminicon {margin-left: 10px;} ';
 document.getElementsByTagName('head')[0].appendChild(style);
 
-// set user tag function in head, I heard you like js, so I put js in your js
+// set admin functions in head, I heard you like js, so I put js in your js
 var script = document.createElement('script');
 script.type = 'text/javascript';
 script.innerHTML = `
@@ -64,8 +64,20 @@ script.innerHTML = `
     document.getElementById(tabnane).style.display = "block";
     evt.currentTarget.className += " active";
   }
-`;
+  function remainingChar(id, remainid, num) {
+    document.getElementById(id).onkeyup = function () {
+      document.getElementById(remainid).innerHTML = "Characters left: " + (num - this.value.length);
+      document.getElementById("csssaved").innerHTML = "";
 
+    }
+  }
+  function saveTheme(id) {
+    var css = document.getElementById(id).value;
+    document.getElementById("csssaved").innerHTML = " &#10003;";
+    localStorage.setItem("YAPETheme", css);
+  }
+
+`;
 document.getElementsByTagName('head')[0].appendChild(script);
 
 
@@ -148,7 +160,9 @@ for (var i = 0; i < getu.length; i++) {
 // css
 var YAPEstyle = document.createElement('style');
 YAPEstyle.type = 'text/css';
+YAPEstyle.setAttribute('class', 'YAPEadmin');
 YAPEstyle.innerHTML = '#YAPEadminmodel {display: none;position: fixed;z-index: 1;padding-top: 100px;left: 0;top: 0;width: 100%;height: 100%;overflow: auto;background-color: rgb(0,0,0);background-color: rgba(0,0,0,0.4);} ';
+YAPEstyle.innerHTML += 'span.yapeadminicon {margin-left: 10px;} ';
 YAPEstyle.innerHTML += '.modal-content {background-color: #fefefe;margin: auto;padding: 20px;border: 1px solid #888;width: 80%;} ';
 YAPEstyle.innerHTML += '.close {color: #aaaaaa;float: right;font-size: 28px;font-weight: bold;} ';
 YAPEstyle.innerHTML += '.close {color: #aaaaaa;float: right;font-size: 28px;font-weight: bold;} ';
@@ -156,13 +170,16 @@ YAPEstyle.innerHTML += '.close:hover,.close:focus {color: #000;text-decoration: 
 YAPEstyle.innerHTML += 'div.tab{overflow:hidden;border:1px solid #ccc;background-color:#f1f1f1}div.tab button{background-color:inherit;float:left;border:none;outline:0;';
 YAPEstyle.innerHTML += 'cursor:pointer;padding:14px 16px;transition:.3s;font-size:17px}div.tab button:hover{background-color:#ddd}div.tab button.active{background-color:#ccc} ';
 YAPEstyle.innerHTML += '.tabcontent{display:none;padding:6px 12px;border:1px solid #ccc;border-top:none} ';
+YAPEstyle.innerHTML += 'textarea#csstxtar {width: 94%;height: 200px;} ';
 document.getElementsByTagName('head')[0].appendChild(YAPEstyle);
+
+
 
 // admin area
 var YAPEmodel = document.createElement('div');
 YAPEmodel.setAttribute('id', 'YAPEadminmodel');
 
-// yape admin modal html
+// user tag box
 var boxhtml = '';
 boxhtml += '<div class="modal-content">';
 boxhtml += '  <div class="closeYAPE" style="text-align: right;">&times; close</div>';
@@ -170,6 +187,7 @@ boxhtml += '  <div class="yapecontent">';
 boxhtml += '    <div class="tab">';
 boxhtml += '      <button class="tablinks" onclick="openTab(event, \'Admin\')" id="defaultOpen">Admin</button>';
 boxhtml += '      <button class="tablinks" onclick="openTab(event, \'Tags\')">User Tags</button>';
+boxhtml += '      <button class="tablinks" onclick="openTab(event, \'CSS\')">Theme</button>';
 boxhtml += '      <button class="tablinks" onclick="openTab(event, \'Other\')">Other</button>';
 boxhtml += '    </div>';
 boxhtml += '    <div id="Admin" class="tabcontent">';
@@ -182,9 +200,15 @@ boxhtml += '    <div id="Tags" class="tabcontent">';
 boxhtml += '      <h3>User Tags</h3>';
 boxhtml += '      <ul id="YAPEadminUserTagsUL"></ul>';
 boxhtml += '    </div>';
+boxhtml += '    <div id="CSS" class="tabcontent">';
+boxhtml += '      <h3>Custom stylesheet</h3>';
+boxhtml += '      <p>Apply a custom stylesheet to Phuks. 10,000 character limit.<br><font size="-1">Since this is stored on your local machine you can do whatever limit you want.</p></p>';
+boxhtml += '      <p><textarea id="csstxtar" onkeypress="remainingChar(\'csstxtar\', \'cssremainingc\', 10000)" width="100%"> </textarea> <div id="cssremainingc"></div></p>';
+boxhtml += '      <button class="" onclick="saveTheme(\'csstxtar\')">Save</button> <span id="csssaved"></span></p>';
+boxhtml += '    </div>';
 boxhtml += '    <div id="Other" class="tabcontent">';
 boxhtml += '      <h3>Other</h3>';
-boxhtml += '      <p>Other</p>';
+boxhtml += '      <p>other</p>';
 boxhtml += '    </div>';
 boxhtml += '  </div>';
 boxhtml += '</div>';
@@ -198,11 +222,13 @@ var adminul = document.querySelector('#YAPEadminUserTagsUL');
 for (var i = 0; i < localStorage.length; i++) {
     var key = localStorage.key(i);
     var elem = localStorage.getItem(key);
-    console.log(key + ', ' + elem);
-    var newtagli = document.createElement('li');
-    newtagli.innerHTML = '<a href="/u/' + key.substring(13) + '" target="_blank">' + key.substring(13) + '</a>: ' + elem + ' ';
-    newtagli.innerHTML += '<img src="' + usrtagimg + '" height="16" width="16" onclick="setPhuksUserTag(\'' + key.substring(13) + '\', \'' + elem + '\')">';
-    adminul.appendChild(newtagli);
+    //console.log(key + ', ' + elem);
+    if (key.startsWith('PhuksUserTag')) {
+      var newtagli = document.createElement('li');
+      newtagli.innerHTML = '<a href="/u/' + key.substring(13) + '" target="_blank">' + key.substring(13) + '</a>: ' + elem + ' ';
+      newtagli.innerHTML += '<img src="' + usrtagimg + '" height="16" width="16" onclick="setPhuksUserTag(\'' + key.substring(13) + '\', \'' + elem + '\')">';
+      adminul.appendChild(newtagli);
+    }
 }
 
 // admin image in menu
@@ -237,3 +263,14 @@ window.onclick = function(event) {
         modal.style.display = "none";
     }
 };
+
+// Theme stylesheet
+var YAPEtheme = localStorage.getItem('YAPETheme');
+if (YAPEtheme) {
+    var YAPEcustomStyle = document.createElement('style');
+    YAPEcustomStyle.type = 'text/css';
+    YAPEcustomStyle.setAttribute('class', 'YAPEtheme');
+    YAPEcustomStyle.innerHTML = YAPEtheme;
+    document.getElementsByTagName('head')[0].appendChild(YAPEcustomStyle);
+    document.getElementById("csstxtar").value = YAPEtheme;
+}
