@@ -51,7 +51,21 @@ script.innerHTML = `
       location.reload();
     }
   }
+  function openTab(evt, tabnane) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(tabnane).style.display = "block";
+    evt.currentTarget.className += " active";
+  }
 `;
+
 document.getElementsByTagName('head')[0].appendChild(script);
 
 
@@ -139,24 +153,45 @@ YAPEstyle.innerHTML += '.modal-content {background-color: #fefefe;margin: auto;p
 YAPEstyle.innerHTML += '.close {color: #aaaaaa;float: right;font-size: 28px;font-weight: bold;} ';
 YAPEstyle.innerHTML += '.close {color: #aaaaaa;float: right;font-size: 28px;font-weight: bold;} ';
 YAPEstyle.innerHTML += '.close:hover,.close:focus {color: #000;text-decoration: none;cursor: pointer;} ';
+YAPEstyle.innerHTML += 'div.tab{overflow:hidden;border:1px solid #ccc;background-color:#f1f1f1}div.tab button{background-color:inherit;float:left;border:none;outline:0;';
+YAPEstyle.innerHTML += 'cursor:pointer;padding:14px 16px;transition:.3s;font-size:17px}div.tab button:hover{background-color:#ddd}div.tab button.active{background-color:#ccc} ';
+YAPEstyle.innerHTML += '.tabcontent{display:none;padding:6px 12px;border:1px solid #ccc;border-top:none} ';
 document.getElementsByTagName('head')[0].appendChild(YAPEstyle);
 
 // admin area
 var YAPEmodel = document.createElement('div');
 YAPEmodel.setAttribute('id', 'YAPEadminmodel');
 
-// user tag box
+// yape admin modal html
 var boxhtml = '';
 boxhtml += '<div class="modal-content">';
-boxhtml += '  <span class="closeYAPE" style="float:right">&times;</span>';
-boxhtml += '  <div>Current user tags:</div>';
-boxhtml += '  <div id="YAPEadminUserTags">';
-boxhtml += '    <ul id="YAPEadminUserTagsUL"></ul>';
+boxhtml += '  <div class="closeYAPE" style="text-align: right;">&times; close</div>';
+boxhtml += '  <div class="yapecontent">';
+boxhtml += '    <div class="tab">';
+boxhtml += '      <button class="tablinks" onclick="openTab(event, \'Admin\')" id="defaultOpen">Admin</button>';
+boxhtml += '      <button class="tablinks" onclick="openTab(event, \'Tags\')">User Tags</button>';
+boxhtml += '      <button class="tablinks" onclick="openTab(event, \'Other\')">Other</button>';
+boxhtml += '    </div>';
+boxhtml += '    <div id="Admin" class="tabcontent">';
+boxhtml += '      <h3>Admin</h3>';
+boxhtml += '      <p>YAPE, Yet Another Phuking Extension. Add-on for Phuks!</p>';
+boxhtml += '      <p>Currently works on <a href="https://dev.phuks.co">https://dev.phuks.co</a></p>';
+boxhtml += '      <p style="text-align: right;">version 0.1.4</p>';
+boxhtml += '    </div>';
+boxhtml += '    <div id="Tags" class="tabcontent">';
+boxhtml += '      <h3>User Tags</h3>';
+boxhtml += '      <ul id="YAPEadminUserTagsUL"></ul>';
+boxhtml += '    </div>';
+boxhtml += '    <div id="Other" class="tabcontent">';
+boxhtml += '      <h3>Other</h3>';
+boxhtml += '      <p>Other</p>';
+boxhtml += '    </div>';
 boxhtml += '  </div>';
 boxhtml += '</div>';
 
 YAPEmodel.innerHTML = boxhtml;
 document.getElementsByTagName('body')[0].appendChild(YAPEmodel);
+document.getElementById("defaultOpen").click();
 
 // get user tags
 var adminul = document.querySelector('#YAPEadminUserTagsUL');
