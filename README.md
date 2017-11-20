@@ -1,6 +1,6 @@
 # YAPE
-Yet Another Phuks Extension, Add-on for Phuks!
+Yet Another Phukking Extension, Add-on for Phuks!
 
-Get new local features for dev.Phuks.co.
+Get extra local features for Phuks.co.
 
-Add this script to a tampermonkey/greasemonkey type js addon.
+Add this script to a tampermonkey/greasemonkey type js addon manager.
