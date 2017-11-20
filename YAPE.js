@@ -5,21 +5,21 @@
 // @date         2017-09-25
 // @description  Yet Another Phuking Extension. Add-on for Phuks!
 // @author       pembo
-// @match        https://dev.phuks.co
-// @match        https://dev.phuks.co/all
-// @match        https://dev.phuks.co/hot
-// @match        https://dev.phuks.co/new
-// @match        https://dev.phuks.co/top
-// @match        https://dev.phuks.co/all/*
-// @match        https://dev.phuks.co/hot/*
-// @match        https://dev.phuks.co/new/*
-// @match        https://dev.phuks.co/top/*
-// @match        https://dev.phuks.co/s/*/hot
-// @match        https://dev.phuks.co/s/*/new
-// @match        https://dev.phuks.co/s/*/top
-// @match        https://dev.phuks.co/s/*/hot/*
-// @match        https://dev.phuks.co/s/*/new/*
-// @match        https://dev.phuks.co/s/*/top/*
+// @match        https://phuks.co
+// @match        https://phuks.co/all
+// @match        https://phuks.co/hot
+// @match        https://phuks.co/new
+// @match        https://phuks.co/top
+// @match        https://phuks.co/all/*
+// @match        https://phuks.co/hot/*
+// @match        https://phuks.co/new/*
+// @match        https://phuks.co/top/*
+// @match        https://phuks.co/s/*/hot
+// @match        https://phuks.co/s/*/new
+// @match        https://phuks.co/s/*/top
+// @match        https://phuks.co/s/*/hot/*
+// @match        https://phuks.co/s/*/new/*
+// @match        https://phuks.co/s/*/top/*
 // @grant        none
 // ==/UserScript==
 //https://github.com/pembo210/YAPE
