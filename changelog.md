@@ -1,26 +1,19 @@
-# 0.1.5: Personal stylesheet
+**0.1.6: More tags:**
 
-**Features added:**
+- Added user tagging in comments
 
-- Apply your own css to the website
+**0.1.5: Personal stylesheet:**
 
+- Apply your own css to the site
 
-# 0.1.4: Admin popup and icon in menu
-
-**Features added:**
+**0.1.4: Admin modal and icon in menu:**
 
 - Admin interface, fox menu icon, see all current user tags
 
-
-# 0.1.3: Add user tags
-
-**Features added:**
+**0.1.3: Add user tags:**
 
 - Give custom tags/nicknames to other users
 
-
-# 0.1.2: Creation, toggle all expandos
-
-**Features added:**
+**0.1.2: Creation, toggle all expandos:**
 
 - Add Toggle button to top, opens/closes all expandos

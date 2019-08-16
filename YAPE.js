@@ -14,9 +14,7 @@
 // @match        https://phuks.co/hot/*
 // @match        https://phuks.co/new/*
 // @match        https://phuks.co/top/*
-// @match        https://phuks.co/s/*/hot
-// @match        https://phuks.co/s/*/new
-// @match        https://phuks.co/s/*/top
+// @match        https://phuks.co/s/*/*
 // @match        https://phuks.co/s/*/hot/*
 // @match        https://phuks.co/s/*/new/*
 // @match        https://phuks.co/s/*/top/*
@@ -83,23 +81,21 @@ document.getElementsByTagName('head')[0].appendChild(script);
 
 /***** Expandos *****/
 
+//// disable toggle all expandos option ////
 // find expandos
-var geta = document.getElementsByClassName("expando-btn");
-
+//var geta = document.getElementsByClassName("expando-btn");
 // create toggle button and expando count
-var ul = document.querySelector('.pure-menu-list');
-var newli = document.createElement('li');
-newli.innerHTML = '<a class="pure-menu-link" id="OpenExpandos">Toggle (' + geta.length + ')</a>'; // Open
-newli.setAttribute('class', 'pure-menu-item');
-ul.appendChild(newli);
-
+//var ul = document.querySelector('.pure-menu-list');
+//var newli = document.createElement('li');
+//newli.innerHTML = '<a class="pure-menu-link" id="OpenExpandos">Toggle (' + geta.length + ')</a>'; // Open
+//newli.setAttribute('class', 'pure-menu-item');
+//ul.appendChild(newli);
 // activate link
-document.getElementById("OpenExpandos").addEventListener (
-    "click", ButtonClickAction, false
-);
-
+//document.getElementById("OpenExpandos").addEventListener (
+//    "click", ButtonClickAction, false
+//);
 // toggle click
-function ButtonClickAction(zEvent) {
+//function ButtonClickAction(zEvent) {
     // toggle button name Open to Close
     // needs a class to signal if the expando is open or closed
     // if (document.getElementById("OpenExpandos").innerHTML == 'Open (' + geta.length + ')') {
@@ -107,12 +103,12 @@ function ButtonClickAction(zEvent) {
     // } else {
     //   document.getElementById("OpenExpandos").innerHTML = 'Open (' + geta.length + ')';
     // }
-    var clickEvent  = document.createEvent("HTMLEvents");
-    clickEvent.initEvent("click", true, true);
-    for (var i = 0; i < geta.length; i++) {
-      geta[i].dispatchEvent(clickEvent);
-    }
-}
+//    var clickEvent  = document.createEvent("HTMLEvents");
+//    clickEvent.initEvent("click", true, true);
+//    for (var i = 0; i < geta.length; i++) {
+//      geta[i].dispatchEvent(clickEvent);
+//    }
+//}
 
 
 /***** User tags *****/
@@ -128,10 +124,10 @@ usrtagimg += 'hLzCzQr7XvNOvDRQkKYLZqlBnZHIwuITQ0yZZNJN8EB4bwUd26bRPOACA96YFYBmZK
 usrtagimg += 'rTHUtL2DnLS/XT8cMnuLE022pfPlBZ99ngFN11JdPqaE11ze6HyvUciYnZ4vDV0FRA+mA231klyKrTWhDw/uUksE3Lrxgv9AbmhV3RvfAbaAAAAAElFTkSuQmCC';
 
 // find author links
-var getu = document.getElementsByClassName('authorlink');
+var getu = document.querySelectorAll('.authorlink,.poster')
 
 for (var i = 0; i < getu.length; i++) {
-    var username = getu[i].innerHTML;
+    var username = getu[i].getAttribute('href').replace('/u/', '');
     // check local storage for tag
     if (localStorage.getItem('PhuksUserTag=' + username)) {
       var hastag = true, usertag = localStorage.getItem('PhuksUserTag=' + username);
@@ -193,8 +189,8 @@ boxhtml += '    </div>';
 boxhtml += '    <div id="Admin" class="tabcontent">';
 boxhtml += '      <h3>Admin</h3>';
 boxhtml += '      <p>YAPE, Yet Another Phuking Extension. Add-on for Phuks!</p>';
-boxhtml += '      <p>Currently works on <a href="https://dev.phuks.co">https://dev.phuks.co</a></p>';
-boxhtml += '      <p style="text-align: right;">version 0.1.5</p>';
+boxhtml += '      <p>Currently works on <a href="https://phuks.co">https://phuks.co</a></p>';
+boxhtml += '      <p style="text-align: right;">version 0.1.6</p>';
 boxhtml += '    </div>';
 boxhtml += '    <div id="Tags" class="tabcontent">';
 boxhtml += '      <h3>User Tags</h3>';
