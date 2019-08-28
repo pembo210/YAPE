@@ -1,3 +1,8 @@
+**0.1.7: Hide/Save posts, User info:**
+
+- Hover over username for info from the API
+- Save or Hide a post from posts page
+
 **0.1.6: More tags:**
 
 - Added user tagging in comments

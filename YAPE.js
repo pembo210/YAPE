@@ -1,36 +1,32 @@
 // ==UserScript==
 // @name         YAPE
 // @namespace    https://phuks.co
-// @version      0.1.5
+// @version      0.1.7
 // @date         2017-09-25
 // @description  Yet Another Phuking Extension. Add-on for Phuks!
 // @author       pembo
 // @match        https://phuks.co
-// @match        https://phuks.co/all
-// @match        https://phuks.co/hot
-// @match        https://phuks.co/new
-// @match        https://phuks.co/top
-// @match        https://phuks.co/all/*
-// @match        https://phuks.co/hot/*
-// @match        https://phuks.co/new/*
-// @match        https://phuks.co/top/*
-// @match        https://phuks.co/s/*/*
-// @match        https://phuks.co/s/*/hot/*
-// @match        https://phuks.co/s/*/new/*
-// @match        https://phuks.co/s/*/top/*
+// @match        https://phuks.co/*
 // @grant        none
 // ==/UserScript==
-//https://github.com/pembo210/YAPE
+
+// https://github.com/pembo210/YAPE
+
 
 /***** Things in the head *****/
 
 // css
 var style = document.createElement('style');
 style.type = 'text/css';
-style.setAttribute('class', 'YAPEexpandos');
-style.innerHTML = '#myButton,#OpenExpandos {cursor: pointer;color:#fff;} ';
-style.innerHTML += 'span.PhuksUserTag {padding: 2px 4px;border: 1px solid #555;border-radius: 4px;margin: 0px 2px 0px 6px;} ';
-style.innerHTML += 'body.dark img.PhuksUserTagImg {background: #999;border-radius: 2px;padding: 2px;} ';
+style.setAttribute('class', 'YAPE');
+//style.innerHTML = '#myButton,#OpenExpandos {cursor: pointer;color:#fff;} ';
+// user tagging
+style.innerHTML += 'span.PhuksUserTag {padding: 2px 4px;border:1px solid #555;border-radius:4px;margin:0px 2px 0px 6px;} ';
+style.innerHTML += 'body.dark img.PhuksUserTagImg {background:#999;border-radius:2px;padding:2px;} ';
+// user tooltip
+style.innerHTML += 'a.authorlink.tooltip {position: relative;display: inline-block;} ';
+style.innerHTML += 'a.authorlink.tooltip ~ span.tooltiptext {visibility: hidden;color: #fff;background: #010101;border-radius:6px;padding:10px;z-index: 1;opacity: 0;position: absolute;} ';
+
 document.getElementsByTagName('head')[0].appendChild(style);
 
 // set admin functions in head, I heard you like js, so I put js in your js
@@ -81,37 +77,36 @@ document.getElementsByTagName('head')[0].appendChild(script);
 
 /***** Expandos *****/
 
-//// disable toggle all expandos option ////
+/*** disabled toggle all expandos option ***
 // find expandos
-//var geta = document.getElementsByClassName("expando-btn");
+var geta = document.getElementsByClassName("expando-btn");
 // create toggle button and expando count
-//var ul = document.querySelector('.pure-menu-list');
-//var newli = document.createElement('li');
-//newli.innerHTML = '<a class="pure-menu-link" id="OpenExpandos">Toggle (' + geta.length + ')</a>'; // Open
-//newli.setAttribute('class', 'pure-menu-item');
-//ul.appendChild(newli);
+var ul = document.querySelector('.pure-menu-list');
+var newli = document.createElement('li');
+newli.innerHTML = '<a class="pure-menu-link" id="OpenExpandos">Toggle (' + geta.length + ')</a>'; // Open
+newli.setAttribute('class', 'pure-menu-item');
+ul.appendChild(newli);
 // activate link
-//document.getElementById("OpenExpandos").addEventListener (
-//    "click", ButtonClickAction, false
-//);
+document.getElementById("OpenExpandos").addEventListener("click", ButtonClickAction, false);
 // toggle click
-//function ButtonClickAction(zEvent) {
-    // toggle button name Open to Close
+function ButtonClickAction(zEvent) {
+    toggle button name Open to Close
     // needs a class to signal if the expando is open or closed
-    // if (document.getElementById("OpenExpandos").innerHTML == 'Open (' + geta.length + ')') {
-    //   document.getElementById("OpenExpandos").innerHTML = 'Close (' + geta.length + ')';
-    // } else {
-    //   document.getElementById("OpenExpandos").innerHTML = 'Open (' + geta.length + ')';
-    // }
-//    var clickEvent  = document.createEvent("HTMLEvents");
-//    clickEvent.initEvent("click", true, true);
-//    for (var i = 0; i < geta.length; i++) {
-//      geta[i].dispatchEvent(clickEvent);
-//    }
-//}
+    if (document.getElementById("OpenExpandos").innerHTML == 'Open (' + geta.length + ')') {
+      document.getElementById("OpenExpandos").innerHTML = 'Close (' + geta.length + ')';
+    } else {
+      document.getElementById("OpenExpandos").innerHTML = 'Open (' + geta.length + ')';
+    }
+    var clickEvent  = document.createEvent("HTMLEvents");
+    clickEvent.initEvent("click", true, true);
+    for (var i = 0; i < geta.length; i++) {
+      geta[i].dispatchEvent(clickEvent);
+    }
+}
+**/
 
 
-/***** User tags *****/
+/***** User tags and user info *****/
 
 // tag image
 var usrtagimg = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAABL1BMVEUAAABEREBEREBEREBEREBEREBEREBEREBEREArKyg3N';
@@ -123,32 +118,142 @@ usrtagimg += 'yIRVORoKcbQ0tPLHB0oKgenETJXAAAA50lEQVQYV22QPUsEQRBE682Mw7gr7AXrB2K
 usrtagimg += 'hLzCzQr7XvNOvDRQkKYLZqlBnZHIwuITQ0yZZNJN8EB4bwUd26bRPOACA96YFYBmZKzQATLQ6fwQYT5nLPT3XdX1yJphVVSVJRwqyxFtKEbWJhaSvRkH2PXLxD';
 usrtagimg += 'rTHUtL2DnLS/XT8cMnuLE022pfPlBZ99ngFN11JdPqaE11ze6HyvUciYnZ4vDV0FRA+mA231klyKrTWhDw/uUksE3Lrxgv9AbmhV3RvfAbaAAAAAElFTkSuQmCC';
 
-// find author links
+// find user links
 var getu = document.querySelectorAll('.authorlink,.poster')
+var username = '', hasUtag = false, usertag = '';
 
 for (var i = 0; i < getu.length; i++) {
-    var username = getu[i].getAttribute('href').replace('/u/', '');
+    username = getu[i].getAttribute('href').replace('/u/', '');
+
+    // user tootip class
+    getu[i].classList.add('tooltip');
+
     // check local storage for tag
     if (localStorage.getItem('PhuksUserTag=' + username)) {
-      var hastag = true, usertag = localStorage.getItem('PhuksUserTag=' + username);
+      hasUtag = true;
+      usertag = localStorage.getItem('PhuksUserTag=' + username);
       // add tag span after authorlink
-      var newspan = document.createElement('span');
-      newspan.setAttribute('class', 'PhuksUserTag');
-      newspan.innerHTML = usertag;
-      getu[i].after(newspan);
+      var utag = document.createElement('span');
+      utag.setAttribute('class', 'PhuksUserTag');
+      utag.innerHTML = usertag;
+      getu[i].after(utag);
     } else {
-      var hastag = false, usertag = '';
+      hasUtag = false;
+      usertag = '';
     }
 
-    // tag image
+    // user tag image
     var togglespan = document.createElement('span');
     togglespan.innerHTML = '<img src="' + usrtagimg + '" height="16" width="16" onclick="setPhuksUserTag(\'' + username + '\', \'' + usertag + '\')">';
-    if (hastag) {
-      newspan.after(togglespan);
+    if (hasUtag) {
+      utag.after(togglespan);
     } else {
       getu[i].after(togglespan);
     }
-}
+
+
+    // user info box
+    var uinfo = document.createElement('span');
+    uinfo.setAttribute('class', 'tooltiptext');
+    uinfo.classList.add('tooltiptext');
+    uinfo.innerHTML = 'gg';
+    uinfo.setAttribute('id', 'pop' + i);
+    togglespan.after(uinfo);
+
+    // add mouseover
+    getu[i].setAttribute('uname', username);
+    getu[i].setAttribute('upop', i);
+
+    getu[i].addEventListener('mouseenter', function(){
+         var b = this.getAttribute('upop');
+         fetch('https://phuks.co/api/getUser/' + this.getAttribute('uname'))
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                appendData(data);
+                function appendData(data) {
+                 // console.log(data.status); // returns 'ok' from phuks api
+                 // create user info tooltip
+                  var a = document.getElementById('pop' + b);
+                  if (data.user.bot == true) {
+                    a.innerHTML = data.user.name + '<span style="float:right">[bot]</span>';
+                  } else {
+                    a.innerHTML = data.user.name;
+                  };
+                  a.innerHTML += '<br>Level: ' + data.user.level;
+                  a.innerHTML += '<br>XP: ' + data.user.xp;
+                  a.innerHTML += '<br>Posts: ' + data.user.post_count;
+                  a.innerHTML += '<br>Comments: ' + data.user.comment_count;
+                  a.innerHTML += '<br>Voting: +' + data.user.upvotes_given + '|-' + data.user.downvotes_given;
+                  a.style.visibility = 'visible';
+                  a.style.opacity = '1';
+                }
+            })
+            .catch(function (err) {
+                console.log('error: phuk');
+            });
+    });
+    getu[i].addEventListener('mouseout', function(){
+        var b = this.getAttribute('upop');
+        document.getElementById('pop' + b).style.visibility = 'hidden';
+        document.getElementById('pop' + b).style.opacity = '0';
+    });
+};
+
+
+/***** Hide post and Save post links *****/
+
+// get all da posts
+var posts = document.querySelectorAll('.post');
+var pid = '';
+
+for (var j = 0; j < posts.length; j++) {
+    pid = posts[j].getAttribute('pid');
+    posts[j].setAttribute('id', pid);
+
+    // check local storage for hidden post id
+    if (localStorage.getItem('PhuksHiddenPost=' + pid)) {
+        document.getElementById(pid).style.display = 'none';
+    };
+
+    // add hide post link to links
+    var hidespan = document.createElement('span');
+    hidespan.setAttribute('pid', pid);
+    hidespan.innerHTML = '<a href="#"> hide </a>';
+    var sel = posts[j].getElementsByClassName('pbody')[0].getElementsByClassName('links')[0];
+    sel.appendChild(hidespan);
+    // click hide
+    hidespan.addEventListener('mousedown', function(){
+        var p = this.getAttribute('pid');
+        //document.getElementById(p).setAttribute('class', 'hidden');
+        var post = document.getElementById(p);
+        var title = post.getElementsByClassName('pbody')[0].getElementsByClassName('post-heading')[0].getElementsByClassName('title')[0].innerHTML;
+        post.style.display = 'none';
+        localStorage.setItem("PhuksHiddenPost=" + p, title);
+    });
+
+    // add save post link to links
+    var savespan = document.createElement('span');
+    savespan.setAttribute('pid', pid);
+    var sell = posts[j].getElementsByClassName('pbody')[0].getElementsByClassName('links')[0];
+    // check local storage for saved post id
+    if (localStorage.getItem('PhuksSavedPost=' + pid)) {
+        savespan.innerHTML = '<a href="#" style="color:green"> saved </a>';
+        sell.appendChild(savespan);
+    } else {
+        savespan.innerHTML = '<a href="#"> save </a>';
+        sell.appendChild(savespan);
+        // click save
+        savespan.addEventListener('mousedown', function(){
+            var p = this.getAttribute('pid');
+            var post = document.getElementById(p);
+            var title = post.getElementsByClassName('pbody')[0].getElementsByClassName('post-heading')[0].getElementsByClassName('title')[0].innerHTML;
+            this.innerHTML = '<a href="#" style="color:green"> saved </a>';
+            localStorage.setItem("PhuksSavedPost=" + p, title);
+        });
+    };
+};
 
 
 /***** Admin area *****/
@@ -157,19 +262,18 @@ for (var i = 0; i < getu.length; i++) {
 var YAPEstyle = document.createElement('style');
 YAPEstyle.type = 'text/css';
 YAPEstyle.setAttribute('class', 'YAPEadmin');
-YAPEstyle.innerHTML = '#YAPEadminmodel {display: none;position: fixed;z-index: 1;padding-top: 100px;left: 0;top: 0;width: 100%;height: 100%;overflow: auto;background-color: rgb(0,0,0);background-color: rgba(0,0,0,0.4);} ';
-YAPEstyle.innerHTML += 'span.yapeadminicon {margin-left: 10px;} ';
+YAPEstyle.innerHTML = '#YAPEadminmodel {display:none;position:fixed;z-index:1;padding-top:100px;left:0;top:0;width:100%; ';
+YAPEstyle.innerHTML += 'height:100%;overflow:auto;background-color: rgb(0,0,0);background-color: rgba(0,0,0,0.4);} ';
+YAPEstyle.innerHTML += 'span.yapeadminicon {margin-left:10px;} ';
 YAPEstyle.innerHTML += '.modal-content {background-color: #fefefe;margin: auto;padding: 20px;border: 1px solid #888;width: 80%;} ';
-YAPEstyle.innerHTML += '.close {color: #aaaaaa;float: right;font-size: 28px;font-weight: bold;} ';
-YAPEstyle.innerHTML += '.close {color: #aaaaaa;float: right;font-size: 28px;font-weight: bold;} ';
-YAPEstyle.innerHTML += '.close:hover,.close:focus {color: #000;text-decoration: none;cursor: pointer;} ';
-YAPEstyle.innerHTML += 'div.tab{overflow:hidden;border:1px solid #ccc;background-color:#f1f1f1}div.tab button{background-color:inherit;float:left;border:none;outline:0;';
-YAPEstyle.innerHTML += 'cursor:pointer;padding:14px 16px;transition:.3s;font-size:17px}div.tab button:hover{background-color:#ddd}div.tab button.active{background-color:#ccc} ';
+YAPEstyle.innerHTML += '.closeYAPE {cursor: pointer;width: 80px;height: 30px;float: right;padding: 6px;margin-top: 6px;text-align: right;} ';
+YAPEstyle.innerHTML += 'div.tab{overflow:hidden;border:1px solid #ccc;background-color:#f1f1f1} ';
+YAPEstyle.innerHTML += 'div.tab button{background-color:inherit;float:left;border:none;outline:0; ';
+YAPEstyle.innerHTML += 'cursor:pointer;padding:14px 16px;transition:.3s;font-size:17px} ';
+YAPEstyle.innerHTML += 'div.tab button:hover{background-color:#ddd}div.tab button.active{background-color:#ccc} ';
 YAPEstyle.innerHTML += '.tabcontent{display:none;padding:6px 12px;border:1px solid #ccc;border-top:none} ';
 YAPEstyle.innerHTML += 'textarea#csstxtar {width: 94%;height: 200px;} ';
 document.getElementsByTagName('head')[0].appendChild(YAPEstyle);
-
-
 
 // admin area
 var YAPEmodel = document.createElement('div');
@@ -184,13 +288,14 @@ boxhtml += '    <div class="tab">';
 boxhtml += '      <button class="tablinks" onclick="openTab(event, \'Admin\')" id="defaultOpen">Admin</button>';
 boxhtml += '      <button class="tablinks" onclick="openTab(event, \'Tags\')">User Tags</button>';
 boxhtml += '      <button class="tablinks" onclick="openTab(event, \'CSS\')">Theme</button>';
-boxhtml += '      <button class="tablinks" onclick="openTab(event, \'Other\')">Other</button>';
+boxhtml += '      <button class="tablinks" onclick="openTab(event, \'Posts\')">Posts</button>';
+boxhtml += '      <button class="tablinks" onclick="openTab(event, \'Testing\')">Testing</button>';
 boxhtml += '    </div>';
 boxhtml += '    <div id="Admin" class="tabcontent">';
 boxhtml += '      <h3>Admin</h3>';
 boxhtml += '      <p>YAPE, Yet Another Phuking Extension. Add-on for Phuks!</p>';
 boxhtml += '      <p>Currently works on <a href="https://phuks.co">https://phuks.co</a></p>';
-boxhtml += '      <p style="text-align: right;">version 0.1.6</p>';
+boxhtml += '      <p style="text-align: right;">version 0.1.7</p>';
 boxhtml += '    </div>';
 boxhtml += '    <div id="Tags" class="tabcontent">';
 boxhtml += '      <h3>User Tags</h3>';
@@ -198,13 +303,25 @@ boxhtml += '      <ul id="YAPEadminUserTagsUL"></ul>';
 boxhtml += '    </div>';
 boxhtml += '    <div id="CSS" class="tabcontent">';
 boxhtml += '      <h3>Custom stylesheet</h3>';
-boxhtml += '      <p>Apply a custom stylesheet to Phuks. 10,000 character limit.<br><font size="-1">Since this is stored on your local machine you can do whatever limit you want.</p></p>';
-boxhtml += '      <p><textarea id="csstxtar" onkeypress="remainingChar(\'csstxtar\', \'cssremainingc\', 10000)" width="100%"> </textarea> <div id="cssremainingc"></div></p>';
+boxhtml += '      <p>Apply a custom stylesheet to Phuks. No character limit.<br>';
+boxhtml += '        <font size="-2">Since this is stored on your local machine, you can do whatever limit you want.</font>';
+boxhtml += '      </p>';
+boxhtml += '      <p><textarea id="csstxtar" onkeypress="remainingChar(\'csstxtar\', \'cssremainingc\', 10000)" width="100%"> </textarea>';
+boxhtml += '        <div id="cssremainingc"></div>';
+boxhtml += '      </p>';
 boxhtml += '      <button class="" onclick="saveTheme(\'csstxtar\')">Save</button> <span id="csssaved"></span></p>';
 boxhtml += '    </div>';
-boxhtml += '    <div id="Other" class="tabcontent">';
+boxhtml += '    <div id="Posts" class="tabcontent">';
+boxhtml += '      <h3>Saved Posts</h3>';
+boxhtml += '      <ul id="YAPEadminSavedPostsUL"></ul>';
+boxhtml += '      <hr>';
+boxhtml += '      <h3>Hidden Posts</h3>';
+boxhtml += '      <ul id="YAPEadminHiddenPostsUL"></ul>';
+boxhtml += '    </div>';
+boxhtml += '    <div id="Testing" class="tabcontent">';
 boxhtml += '      <h3>Other</h3>';
 boxhtml += '      <p>other</p>';
+boxhtml += '<div><input type="color" id="ree" name="ree" value="#e66465"><label for="ree">ree</label></div>';
 boxhtml += '    </div>';
 boxhtml += '  </div>';
 boxhtml += '</div>';
@@ -224,6 +341,50 @@ for (var i = 0; i < localStorage.length; i++) {
       newtagli.innerHTML = '<a href="/u/' + key.substring(13) + '" target="_blank">' + key.substring(13) + '</a>: ' + elem + ' ';
       newtagli.innerHTML += '<img src="' + usrtagimg + '" height="16" width="16" onclick="setPhuksUserTag(\'' + key.substring(13) + '\', \'' + elem + '\')">';
       adminul.appendChild(newtagli);
+    }
+}
+
+// get saved posts
+var adminsaved = document.querySelector('#YAPEadminSavedPostsUL');
+for (var i = 0; i < localStorage.length; i++) {
+    var key = localStorage.key(i);
+    var elem = localStorage.getItem(key);
+    //console.log(key + ', ' + elem);
+    if (key.startsWith('PhuksSavedPost')) {
+      var newtagli = document.createElement('li');
+      var rmspan = document.createElement('span');
+      rmspan.innerHTML = '<a href="#"> remove </a>';
+      rmspan.setAttribute('pid', key.substring(15));
+      newtagli.innerHTML = '<a href="/p/' + key.substring(15) + '" target="_blank">' + key.substring(15) + '</a>: ' + elem + ' ';
+      rmspan.addEventListener('mousedown', function(){
+          var p = this.getAttribute('pid');
+          localStorage.removeItem("PhuksSavedPost=" + p);
+          this.innerHTML = '<a href="#" style="color:red"> removed </a>';
+      });
+      newtagli.appendChild(rmspan);
+      adminsaved.appendChild(newtagli);
+    }
+}
+
+// get hidden posts
+var adminhidden = document.querySelector('#YAPEadminHiddenPostsUL');
+for (var i = 0; i < localStorage.length; i++) {
+    var key = localStorage.key(i);
+    var elem = localStorage.getItem(key);
+    //console.log(key + ', ' + elem);
+    if (key.startsWith('PhuksHiddenPost')) {
+      var newtagli = document.createElement('li');
+      var rmspan = document.createElement('span');
+      rmspan.innerHTML = '<a href="#"> remove </a>';
+      rmspan.setAttribute('pid', key.substring(16));
+      newtagli.innerHTML = '<a href="/p/' + key.substring(16) + '" target="_blank">' + key.substring(16) + '</a>: ' + elem + ' ';
+      rmspan.addEventListener('mousedown', function(){
+          var p = this.getAttribute('pid');
+          localStorage.removeItem("PhuksHiddenPost=" + p);
+          this.innerHTML = '<a href="#" style="color:red"> removed </a>';
+      });
+      newtagli.appendChild(rmspan);
+      adminhidden.appendChild(newtagli);
     }
 }
 
