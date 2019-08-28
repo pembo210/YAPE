@@ -271,7 +271,9 @@ YAPEstyle.innerHTML += 'div.tab{overflow:hidden;border:1px solid #ccc;background
 YAPEstyle.innerHTML += 'div.tab button{background-color:inherit;float:left;border:none;outline:0; ';
 YAPEstyle.innerHTML += 'cursor:pointer;padding:14px 16px;transition:.3s;font-size:17px} ';
 YAPEstyle.innerHTML += 'div.tab button:hover{background-color:#ddd}div.tab button.active{background-color:#ccc} ';
-YAPEstyle.innerHTML += '.tabcontent{display:none;padding:6px 12px;border:1px solid #ccc;border-top:none} ';
+YAPEstyle.innerHTML += 'body.dark div.tab {border: 1px solid #383737;background-color: #070707;} body.dark div.tab button.active {background-color: #111;} ';
+YAPEstyle.innerHTML += 'body.dark div.tab button:hover {background-color: #383838;} ';
+YAPEstyle.innerHTML += '.tabcontent{display:none;padding:6px 12px;border:1px solid #ccc} body.dark .tabcontent{border:1px solid #383737} ';
 YAPEstyle.innerHTML += 'textarea#csstxtar {width: 94%;height: 200px;} ';
 document.getElementsByTagName('head')[0].appendChild(YAPEstyle);
 
